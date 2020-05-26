@@ -48,6 +48,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+
+    // JSR 380 validator
+    implementation 'org.hibernate.validator:hibernate-validator'
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     annotationProcessor 'org.projectlombok:lombok'
@@ -56,6 +60,15 @@ dependencies {
     }
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
+    testImplementation 'org.assertj:assertj-core'
+    testImplementation 'org.mockito:mockito-core'
+
+    // to fix dependencyManagement.dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${tools.jar} in com.sun.xml.bind:jaxb-osgi:2.2.10
+    // refer https://stackoverflow.com/questions/56172229/java-11-issue-with-jaxb-dependencies
+    testImplementation 'io.rest-assured:xml-path:4.2.0'
+
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 dependencyManagement {
@@ -67,6 +80,7 @@ dependencyManagement {
 contracts {
     testFramework = TestFramework.JUNIT5
     testMode = 'WebTestClient'
+    failOnNoContracts = false
 }
 
 test {
