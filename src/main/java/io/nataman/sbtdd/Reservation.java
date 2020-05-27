@@ -10,7 +10,6 @@ import lombok.With;
 @Builder
 public class Reservation {
 
-  @NotBlank(message = "id is mandatory")
   String id;
 
   @NotBlank(message = "name is mandatory")
