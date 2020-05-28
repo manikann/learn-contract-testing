@@ -1,16 +1,11 @@
 package io.nataman.sbtdd;
 
-import lombok.extern.log4j.Log4j2;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import reactor.test.StepVerifier;
 
 @DataMongoTest
-@Log4j2
-@RunWith(SpringRunner.class)
 public class ReservationDocumentTest {
 
   @Autowired
