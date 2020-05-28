@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import reactor.test.StepVerifier;
 
+/**
+ * Test for {@link ReservationRepository}
+ */
 @DataMongoTest
 public class ReservationDocumentTest {
 
@@ -12,7 +15,7 @@ public class ReservationDocumentTest {
   private ReservationRepository reservationRepository;
 
   @Test
-  public void persist() {
+  void persist() {
     var reservation = Reservation.builder().name("unit-test").build();
     var save = reservationRepository.save(reservation);
     StepVerifier.create(save)

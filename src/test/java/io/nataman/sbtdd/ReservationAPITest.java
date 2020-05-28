@@ -1,21 +1,36 @@
 package io.nataman.sbtdd;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
 
+/**
+ * Test for {@link ReservationHttpConfiguration}
+ */
 @WebFluxTest
+@Import({ReservationHttpConfiguration.class})
+@Log4j2
 public class ReservationAPITest {
 
   @Autowired
   WebTestClient webTestClient;
 
+  @MockBean
+  ReservationRepository mockRepository;
+
   @Test
-  public void get() {
+  void get() {
+
+    when(mockRepository.findAll())
+        .thenReturn(Flux.just(Reservation.builder().id("1").name("unit-test...").build()));
 
     webTestClient
         .get()
@@ -25,11 +40,8 @@ public class ReservationAPITest {
         .contentType(MediaType.APPLICATION_JSON)
         .expectStatus()
         .isOk()
-        .expectBody(Reservation.class)
-        .value(
-            reservation -> {
-              assertThat(reservation).isNotNull();
-              assertThat(reservation.getName()).isEqualTo("unit-testing");
-            });
+        .expectBody()
+        .jsonPath("@.[0].name")
+        .isEqualTo("unit-test...");
   }
 }
