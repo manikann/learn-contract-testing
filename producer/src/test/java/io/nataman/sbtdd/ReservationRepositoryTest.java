@@ -9,7 +9,7 @@ import reactor.test.StepVerifier;
  * Test for {@link ReservationRepository}
  */
 @DataMongoTest
-public class ReservationDocumentTest {
+public class ReservationRepositoryTest {
 
   @Autowired
   private ReservationRepository reservationRepository;

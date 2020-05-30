@@ -16,10 +16,10 @@ import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 /**
- * Test for {@link ReservationRoutesConfiguration}
+ * Test for {@link ReservationWebConfiguration}
  */
 @WebFluxTest
-@Import({ReservationRoutesConfiguration.class})
+@Import({ReservationWebConfiguration.class})
 @Log4j2
 public class ReservationAPITest {
 
@@ -30,14 +30,14 @@ public class ReservationAPITest {
   ReservationRepository mockRepository;
 
   @Autowired
-  ReservationRoutesConfiguration routesConfiguration;
+  ReservationWebConfiguration routesConfiguration;
 
   @Test
   void use_step_verifier() {
     Reservation testData = Reservation.builder().id("1").name("unit-test...").build();
     when(mockRepository.findAll()).thenReturn(Flux.just(testData));
 
-    var flux =
+    var reservationFlux =
         webTestClient
             .get()
             .uri("/reservations")
@@ -45,7 +45,7 @@ public class ReservationAPITest {
             .returnResult(Reservation.class)
             .getResponseBody();
 
-    StepVerifier.create(flux).expectNext(testData).verifyComplete();
+    StepVerifier.create(reservationFlux).expectNext(testData).verifyComplete();
   }
 
   @Test
