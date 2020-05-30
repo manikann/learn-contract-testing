@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 @Configuration
 @Log4j2
 @RequiredArgsConstructor
-public class ReservationHttpConfiguration {
+public class ReservationRoutesConfiguration {
 
   private final ReservationRepository reservationRepository;
 
