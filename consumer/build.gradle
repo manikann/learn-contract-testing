@@ -1,8 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.3.0.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
     id 'idea'
+    id 'org.springframework.boot' version '2.3.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 }
 
 
@@ -28,7 +28,9 @@ idea {
 }
 
 ext {
-    set('springCloudVersion', "Hoxton.SR4")
+    set('springCloudVersion', "Hoxton.SR5")
+    set('rest-assured.version', '4.3.0')
+    set('groovy.version', '3.0.4')
 }
 
 dependencies {
@@ -55,7 +57,9 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    testImplementation 'com.github.tomakehurst:wiremock-jre8:2.26.3'
+    testImplementation('org.springframework.cloud:spring-cloud-starter-contract-stub-runner') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'

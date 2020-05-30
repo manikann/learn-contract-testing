@@ -25,7 +25,7 @@ public class ReservationPojoTest {
         .assertNext(
             r -> {
               assertThat(r.getId()).isEqualTo("2");
-              assertThat(r.getName()).isEqualTo("flux-tst");
+              assertThat(r.getName()).isEqualTo("flux-test");
             })
         .verifyComplete();
   }

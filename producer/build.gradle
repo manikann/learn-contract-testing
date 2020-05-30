@@ -1,6 +1,10 @@
+import org.springframework.cloud.contract.verifier.config.TestFramework
+import org.springframework.cloud.contract.verifier.config.TestMode
+
 plugins {
     id 'idea'
     id 'java'
+    id 'maven'
     id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id "org.springframework.cloud.contract" version "2.2.3.RELEASE"
@@ -84,3 +88,8 @@ test {
     useJUnitPlatform()
 }
 
+contracts {
+    testFramework = TestFramework.JUNIT5
+    testMode = TestMode.EXPLICIT
+    baseClassForTests = "io.nataman.contract.Base"
+}
