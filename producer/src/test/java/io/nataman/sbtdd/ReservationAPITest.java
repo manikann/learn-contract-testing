@@ -30,23 +30,22 @@ public class ReservationAPITest {
   ReservationRepository mockRepository;
 
   @Autowired
-  ReservationRoutesConfiguration httpConfiguration;
+  ReservationRoutesConfiguration routesConfiguration;
 
   @Test
   void use_step_verifier() {
     Reservation testData = Reservation.builder().id("1").name("unit-test...").build();
     when(mockRepository.findAll()).thenReturn(Flux.just(testData));
 
-    StepVerifier.create(
+    var flux =
         webTestClient
             .get()
             .uri("/reservations")
             .exchange()
             .returnResult(Reservation.class)
-            .getResponseBody())
-        .expectSubscription()
-        .expectNext(testData)
-        .verifyComplete();
+            .getResponseBody();
+
+    StepVerifier.create(flux).expectNext(testData).verifyComplete();
   }
 
   @Test
@@ -71,7 +70,7 @@ public class ReservationAPITest {
     when(mockRepository.findAll()).thenReturn(Flux.just(testData));
 
     // given
-    var spec = given().standaloneSetup(httpConfiguration.routes());
+    var spec = given().standaloneSetup(routesConfiguration.routes());
 
     // when
     var response = spec.when().get("/reservations").then();
