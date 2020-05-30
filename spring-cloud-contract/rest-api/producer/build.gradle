@@ -10,7 +10,7 @@ plugins {
     id "org.springframework.cloud.contract" version "2.2.3.RELEASE"
 }
 
-group = 'io.nataman'
+group = 'io.nataman.rest-api'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_11
 
@@ -84,8 +84,15 @@ dependencyManagement {
     }
 }
 
+install {
+    dependsOn build
+}
+
 test {
     useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+    }
 }
 
 contracts {

@@ -7,5 +7,5 @@ import lombok.Value;
 public class Reservation {
 
   @NotBlank String id;
-  @NotBlank String reservationName;
+  @NotBlank String name;
 }
