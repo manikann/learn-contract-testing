@@ -1,4 +1,4 @@
-rootProject.name = 'sb-tdd'
-include 'producer'
-include 'consumer'
+rootProject.name = 'learn-contract-testing'
+include 'spring-cloud-stream/rest-api/producer'
+include 'spring-cloud-stream/rest-api/consumer'
 
