@@ -1,4 +1,4 @@
 rootProject.name = 'learn-contract-testing'
-include 'spring-cloud-stream/rest-api/producer'
-include 'spring-cloud-stream/rest-api/consumer'
+include 'spring-cloud-contract.rest-api.producer'
+include 'spring-cloud-contract.rest-api.consumer'
 
