@@ -30,3 +30,4 @@ out/
 
 ### VS Code ###
 .vscode/
+spring-cloud-contract/messaging/
