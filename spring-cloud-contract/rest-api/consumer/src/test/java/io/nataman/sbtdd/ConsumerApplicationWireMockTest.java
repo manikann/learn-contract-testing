@@ -20,7 +20,7 @@ import reactor.test.StepVerifier;
 @DirtiesContext
 class ConsumerApplicationWireMockTest {
 
-  @Autowired private ReservationClient client;
+  @Autowired private ReservationApiClient client;
 
   @Test
   void contextLoads() {

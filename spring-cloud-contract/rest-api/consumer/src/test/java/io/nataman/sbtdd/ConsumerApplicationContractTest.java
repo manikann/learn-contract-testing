@@ -17,7 +17,7 @@ import reactor.test.StepVerifier;
 @DirtiesContext
 class ConsumerApplicationContractTest {
 
-  @Autowired private ReservationClient client;
+  @Autowired private ReservationApiClient client;
 
   @Test
   void contextLoads() {

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
-public class ConsumerApplication {
+class ConsumerApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(ConsumerApplication.class, args);

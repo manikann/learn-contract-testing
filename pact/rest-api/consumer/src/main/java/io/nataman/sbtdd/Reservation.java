@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 import lombok.Value;
 
 @Value
-public class Reservation {
+class Reservation {
 
   @NotBlank String id;
   @NotBlank String name;

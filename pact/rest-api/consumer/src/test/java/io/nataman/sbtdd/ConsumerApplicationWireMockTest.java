@@ -21,7 +21,7 @@ import reactor.test.StepVerifier;
 class ConsumerApplicationWireMockTest {
 
   @Autowired
-  private ReservationClient client;
+  private ReservationApiClient client;
 
   @Test
   void contextLoads() {
