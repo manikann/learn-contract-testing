@@ -13,7 +13,7 @@ import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 @SpringBootTest(webEnvironment = NONE, args = "--stubrunner.cloud.loadbalancer.enabled=false")
-@AutoConfigureStubRunner(ids = "io.nataman.rest-api:producer:+:8080", stubsMode = StubsMode.LOCAL)
+@AutoConfigureStubRunner(ids = "io.nataman.scc.rest-api:producer:+:8080", stubsMode = StubsMode.LOCAL)
 @DirtiesContext
 class ConsumerApplicationContractTest {
 

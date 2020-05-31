@@ -1,4 +1,6 @@
 rootProject.name = 'learn-contract-testing'
 include 'spring-cloud-contract:rest-api:producer'
 include 'spring-cloud-contract:rest-api:consumer'
+//include 'spring-cloud-contract:messaging:producer'
+//include 'spring-cloud-contract:messaging:consumer'
 

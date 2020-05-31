@@ -6,7 +6,7 @@ plugins {
 }
 
 
-group = 'io.nataman.rest-api'
+group = 'io.nataman.scc.rest-api'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_11
 
