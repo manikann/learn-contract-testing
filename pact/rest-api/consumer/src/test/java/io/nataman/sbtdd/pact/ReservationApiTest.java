@@ -16,7 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.json.AutoConfigureJson;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -32,11 +31,12 @@ import reactor.test.StepVerifier;
 @PactTestFor(providerName = "ReservationsProvider", port = "5678")
 public class ReservationApiTest {
 
-  private Reservation testData = new Reservation("1", "pact-test");
+  private final Reservation testData = new Reservation("1", "pact-test");
   private WebTestClient webTestClient;
 
   @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-  @Autowired private JacksonTester<Reservation> jacksonTester;
+  @Autowired
+  private JacksonTester<Reservation> jacksonTester;
 
   @BeforeEach
   void checkInfrastructure(MockServer mockServer) {
