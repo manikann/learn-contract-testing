@@ -17,7 +17,6 @@ import reactor.test.StepVerifier;
 
 @SpringBootTest(webEnvironment = NONE)
 @AutoConfigureWireMock
-@DirtiesContext
 class ConsumerApplicationWireMockTest {
 
   @Autowired

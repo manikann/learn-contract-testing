@@ -16,32 +16,35 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.AutoConfigureJson;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.test.StepVerifier;
 
 @ExtendWith(PactConsumerTestExt.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @AutoConfigureJsonTesters
 @Log4j2
 @PactTestFor(providerName = "ReservationsProvider", port = "5678")
 public class ReservationApiTest {
 
-  Reservation testData = new Reservation("1", "pact-test");
-  @Autowired private WebTestClient webTestClient;
-  @Autowired private JacksonTester jacksonTester;
+  private Reservation testData = new Reservation("1", "pact-test");
+  private WebTestClient webTestClient;
+
+  @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+  @Autowired private JacksonTester<Reservation> jacksonTester;
 
   @BeforeEach
   void checkInfrastructure(MockServer mockServer) {
-    log.info("mackServer: {}", mockServer);
-    log.info("jacksonTester: {}", jacksonTester);
-    log.info("webTestClient: {}", webTestClient);
+    webTestClient = WebTestClient.bindToServer().baseUrl(mockServer.getUrl()).build();
+
     assertThat(mockServer).isNotNull();
-    assertThat(jacksonTester).isNotNull();
     assertThat(webTestClient).isNotNull();
+    assertThat(jacksonTester).isNotNull();
   }
 
   @SneakyThrows
@@ -66,15 +69,12 @@ public class ReservationApiTest {
 
   @Test
   @PactTestFor(pactMethod = "reservations")
-  void testReservations(MockServer mockServer) {
-    var reservationFlux =
-        webTestClient
-            .get()
-            .uri(mockServer.getUrl() + "/reservations")
-            .exchange()
-            .returnResult(Reservation.class)
-            .getResponseBody();
-
-    StepVerifier.create(reservationFlux).expectNext(testData).verifyComplete();
+  @SneakyThrows
+  void testReservations() {
+    var response = webTestClient.get().uri("/reservations").exchange();
+    response.expectHeader().contentType(MediaType.APPLICATION_JSON);
+    response.expectStatus().is2xxSuccessful();
+    var reservationFlux = response.returnResult(Reservation.class).getResponseBody();
+    StepVerifier.create(reservationFlux.log("stepverifier")).expectNextCount(1).verifyComplete();
   }
 }
