@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    draft: {{ default "draft-app" .Values.draft }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  selector:
+    matchLabels:
+      draft: {{ default "draft-app" .Values.draft }}
+      app: {{ template "fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        draft: {{ default "draft-app" .Values.draft }}
+        app: {{ template "fullname" . }}
+      {{- if .Values.podAnnotations }}
+      annotations:
+    {{ toYaml .Values.podAnnotations | indent 8 }}
+    {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.pactImageRepository | lower }}:{{ .Values.image.pactImageTag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+          env:
+            - name: PACT_BROKER_DATABASE_HOST
+              value: {{ template "pact-broker.postgresql.fullname" . }}
+            - name: PACT_BROKER_DATABASE_NAME
+              value: {{ .Values.postgresql.postgresqlDatabase }}
+            - name: PACT_BROKER_DATABASE_USERNAME
+              value: {{ .Values.postgresql.postgresqlUsername }}
+            - name: PACT_BROKER_DATABASE_PASSWORD
+              value: {{ .Values.postgresql.postgresqlPassword }}
+            - name: PACT_BROKER_PORT
+              value: "9292"
+
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.probePath }}
+              port: {{ .Values.service.internalPort }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.probePath }}
+              port: {{ .Values.service.internalPort }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          resources:
+      {{ toYaml .Values.resources | indent 12 }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
