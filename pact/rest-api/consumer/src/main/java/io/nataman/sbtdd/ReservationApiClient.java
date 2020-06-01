@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux;
 
 @Component
 @AllArgsConstructor
-class ReservationApiClient {
+public class ReservationApiClient {
 
   private final WebClient webClient;
 

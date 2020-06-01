@@ -3,10 +3,11 @@ plugins {
     id 'idea'
     id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'au.com.dius.pact' version '4.1.0'
 }
 
 
-group = 'io.nataman.pact.rest-api'
+group = 'io.nataman.sbtdd.pact.rest-api'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_11
 
@@ -17,6 +18,7 @@ configurations {
 }
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
@@ -31,6 +33,7 @@ ext {
     set('springCloudVersion', "Hoxton.SR5")
     set('rest-assured.version', '4.3.0')
     set('groovy.version', '3.0.4')
+    set('pactVersion', '4.0.10')
 }
 
 dependencies {
@@ -60,6 +63,10 @@ dependencies {
     testImplementation('org.springframework.cloud:spring-cloud-starter-contract-stub-runner') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    //testImplementation "au.com.dius:pact-jvm-consumer-java8:${pactVersion}"
+    //testImplementation "au.com.dius:pact-jvm-consumer-junit5:${pactVersion}"
+    testImplementation 'au.com.dius.pact.consumer:java8:4.1.0'
+    testImplementation 'au.com.dius.pact.consumer:junit5:4.1.0'
 
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
@@ -76,4 +83,7 @@ test {
     testLogging {
         showStandardStreams = true
     }
+}
+
+pact {
 }
