@@ -16,17 +16,17 @@ spec:
       labels:
         draft: {{ default "draft-app" .Values.draft }}
         app: {{ template "fullname" . }}
-      {{- if .Values.podAnnotations }}
+{{- if .Values.podAnnotations }}
       annotations:
-    {{ toYaml .Values.podAnnotations | indent 8 }}
-    {{- end }}
+{{ toYaml .Values.podAnnotations | indent 8 }}
+{{- end }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.pactImageRepository | lower }}:{{ .Values.image.pactImageTag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.service.internalPort }}
+          - containerPort: {{ .Values.service.internalPort }}
           env:
             - name: PACT_BROKER_DATABASE_HOST
               value: {{ template "pact-broker.postgresql.fullname" . }}
@@ -55,5 +55,5 @@ spec:
             successThreshold: {{ .Values.readinessProbe.successThreshold }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
           resources:
-      {{ toYaml .Values.resources | indent 12 }}
+{{ toYaml .Values.resources | indent 12 }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
