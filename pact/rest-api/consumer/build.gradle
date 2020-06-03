@@ -86,4 +86,8 @@ test {
 }
 
 pact {
+    publish {
+        pactBrokerUrl = 'http://pact-broker.local/'
+    }
 }
+
